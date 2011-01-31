@@ -47,6 +47,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://github.com/zanmato/Add-to-Transmission/raw/master/Update.plist</string>
 	<key>Website</key>
 	<string>http://www.zanmato.se</string>
 </dict>
