@@ -1,26 +1,28 @@
 div.att-bubble {
-	background: #101010;
-	border: 5px solid #101010;
+	background: #101010 !important;
+	border: 5px solid #101010 !important;
 	border-radius: 10px;
-	color: #fff;
-	font-family: "Lucida Grande";
-	font-size: 16px;
+	color: #fff !important;
+	font-family: "Lucida Grande" !important;
+	font-size: 16px !important;
 	margin: 1em 0 3em;
 	min-width: 120px;
 	opacity: 0;
 	position: absolute;
 	padding: 15px !important;
+	z-index: 100;
 	-webkit-transition: opacity 3s linear;
 }
 
 div.att-bubble:before {
 	bottom: -40px;
 	border: 20px solid transparent;
-	border-top-color: #101010;
+	border-top-color: #101010 !important;
 	content: "";
 	display: block;
 	height: 0;
 	left: 40px;
 	position: absolute;
 	width: 0;
+	z-index: 100;
 }
