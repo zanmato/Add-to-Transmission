@@ -4,7 +4,7 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
-		<string>http://10.0.1.12:9091/transmission/rpc</string>
+		<string>http://127.0.0.1:9091/transmission/rpc</string>
 		<key>Key</key>
 		<string>url</string>
 		<key>Title</key>
@@ -24,13 +24,13 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<string>albatross</string>
+		<string>admin</string>
 		<key>Key</key>
 		<string>password</string>
 		<key>Password</key>
 		<true/>
 		<key>Secure</key>
-		<false/>
+		<true/>
 		<key>Title</key>
 		<string>Password</string>
 		<key>Type</key>
