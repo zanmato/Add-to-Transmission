@@ -1,0 +1,5 @@
+content	addtotransmission	content/
+overlay	chrome://browser/content/browser.xul	chrome://addtotransmission/content/overlay.xul
+
+locale	addtotransmission	en-US	locale/en-US/
+locale  addtotransmission sv-SE locale/sv-SE/

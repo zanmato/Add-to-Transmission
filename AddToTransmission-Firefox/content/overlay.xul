@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://addtotransmission/locale/overlay.dtd">
+<overlay id="addtotransmission-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="overlay.js"/>
+
+  <popup id="contentAreaContextMenu">
+    <menuitem id="addtotransmission-ctx"
+              insertafter="context-sendlink"
+              class="menuitem-iconic"
+              label="&addtotrans;"
+              oncommand="AddToTransmission.contextMenuItemClicked();"/>
+  </popup>
+</overlay>

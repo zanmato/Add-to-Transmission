@@ -3,16 +3,16 @@ div.att-bubble {
 	border: 5px solid #101010 !important;
 	border-radius: 10px;
 	color: #fff !important;
-	font-family: "Lucida Grande" !important;
+	font-family: "Lucida Grande", "Lucida", "Helvetica" !important;
 	font-size: 16px !important;
+	text-align: center;
 	margin: 1em 0 3em;
 	min-width: 120px;
 	opacity: 0;
 	position: absolute;
 	padding: 15px !important;
 	z-index: 100;
-	-webkit-transition: opacity 3s linear;
-	-webkit-transition-delay: 1.5s;
+	-moz-transition: opacity 3s linear;
 }
 
 div.att-bubble:before {

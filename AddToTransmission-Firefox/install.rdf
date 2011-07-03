@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>addtotransmission@zanmato.se</em:id>
+    <em:name>Add to Transmission</em:name>
+	<em:type>2</em:type>
+    <em:version>1.0</em:version>
+    <em:description>Easily add torrents to Transmission</em:description>
+    <em:creator>Andreas Johansson</em:creator>
+    <em:homepageURL>http://www.zanmato.se/</em:homepageURL>
+    <em:iconURL>chrome://addtotransmission/content/brand/icon.png</em:iconURL>
+    <em:optionsURL>chrome://addtotransmission/content/options.xul</em:optionsURL>
+
+    <!-- Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>3.6</em:minVersion>
+        <em:maxVersion>6.0a1</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>
