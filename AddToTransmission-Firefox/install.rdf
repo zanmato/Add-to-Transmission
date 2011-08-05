@@ -5,9 +5,10 @@
     <em:id>addtotransmission@zanmato.se</em:id>
     <em:name>Add to Transmission</em:name>
 	<em:type>2</em:type>
-    <em:version>1.0</em:version>
+    <em:version>1.2</em:version>
     <em:description>Easily add torrents to Transmission</em:description>
     <em:creator>Andreas Johansson</em:creator>
+	<em:contributor>Patrick Milvi</em:contributor>
     <em:homepageURL>http://www.zanmato.se/</em:homepageURL>
     <em:iconURL>chrome://addtotransmission/content/brand/icon.png</em:iconURL>
     <em:optionsURL>chrome://addtotransmission/content/options.xul</em:optionsURL>

@@ -5,29 +5,33 @@ function AddToTransmissionTorrent(info) {
 	this._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/l";
   this.add = function() {
     var that = this;
-  
-    // Try to download the torrent file
-    this.showText('downloadingString');
-    try {
-      var request = new XMLHttpRequest();
-      request.open("GET", that.info.href, true);
-      request.overrideMimeType('text/plain; charset=x-user-defined');
-      request.onreadystatechange = function() {
-        if (request.readyState == 4) {
-          // Add paused? defaults to YES!
-          var addPaused = that.prefManager.getBoolPref("extensions.addtotransmission.addpaused");
+		// Add paused? defaults to YES!
+  	var addPaused = that.prefManager.getBoolPref("extensions.addtotransmission.addpaused");
 
-          // Base64 encode the metadata
-          var metainfo = that.encodeBinary(request.responseText); 
+    if (that.info.magnet) {
+			// Send the magnet link
+			that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused}}));
+		} else {
+	    // Try to download the torrent file
+	    this.showText('downloadingString');
+	    try {
+	      var request = new XMLHttpRequest();
+	      request.open("GET", that.info.href, true);
+	      request.overrideMimeType('text/plain; charset=x-user-defined');
+	      request.onreadystatechange = function() {
+	        if (request.readyState == 4) {
+	          // Base64 encode the metadata
+	          var metainfo = that.encodeBinary(request.responseText); 
           
-          that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
-        }
-      }
+	          that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
+	        }
+	      }
       
-      request.send(null);
-    } catch (e) {
-      that.showText('failedFetchString', true);
-    }
+	      request.send(null);
+	    } catch (e) {
+	      that.showText('failedFetchString', true);
+	    }
+		}
   }
   this.upload = function(data) {
     var that = this;
@@ -71,12 +75,18 @@ function AddToTransmissionTorrent(info) {
               if (json_response.result == 'success') {
                 that.showText('successString', true);
               } else {
-                that.showText('unknownErrorString', true);
+								if (json_response.result == 'duplicate torrent') {
+									that.showText('duplicateTorrentString', true);
+								} else if (json_response.result == 'invalid or corrupt torrent file') {
+									that.showText('invalidTorrentString', true);
+								} else {
+                	that.showText('unknownErrorString', true);
+								}
                 //that.showText(json_response.result.charAt(0).toUpperCase() + json_response.result.slice(1), true);
               }
             }
           } else {
-            that.showText('emptyResponseString', true);
+            that.showText('couldNotConnectString', true);
           }
         } catch (e) { 
           that.showText('unknownErrorString', true);
@@ -102,7 +112,7 @@ function AddToTransmissionTorrent(info) {
 				// Fade out, set timeout to remove it
 				bubble.style.opacity = 0;
 				var that = this;
-				setTimeout(function(){ content.document.body.removeChild(content.document.getElementById(that.info.id)); }, 5000);
+				setTimeout(function(){ if (typeof(content.document.body) !== 'undefined') { try { content.document.body.removeChild(content.document.getElementById(that.info.id)); } catch (e) {/*Do nothing*/} } }, 5000);
 			}
 		}
   }
@@ -117,7 +127,7 @@ function AddToTransmissionTorrent(info) {
     while(inx < input.length){
       // Fill byte buffer array
       bytebuffer = new Array(3);
-      for(jnx = 0; jnx < bytebuffer.length; jnx++)
+      for(var jnx = 0; jnx < bytebuffer.length; jnx++)
       if(inx < input.length)
         bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff; // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
       else
@@ -150,7 +160,7 @@ function AddToTransmissionTorrent(info) {
       }
       // Now we will grab each appropriate character out of our keystring
       // based on our index array and append it to the output string
-      for(jnx = 0; jnx < encodedCharIndexes.length; jnx++)
+      for(var jnx = 0; jnx < encodedCharIndexes.length; jnx++)
         output += this._keyStr.charAt(encodedCharIndexes[jnx]);
     }
     return output;
@@ -160,9 +170,11 @@ function AddToTransmissionTorrent(info) {
 var AddToTransmission = {
   session_id: false,
   userInfo: false,
+	prefManager: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
   onLoad: function(e) {
     var that = this;
     var contextMenu = document.getElementById("contentAreaContextMenu");
+
     if (contextMenu) {
       window.addEventListener("contextmenu", function (e) { that.handleContextMenu(e); }, false);
       this.loadCSS();
@@ -182,6 +194,9 @@ var AddToTransmission = {
     var count = 1;
     while (testObj.nodeName != parentName && count < 50) {
       testObj = testObj.parentNode;
+			if (testObj == null) {
+				return false;
+			}
       count++;
     }
       
@@ -201,7 +216,10 @@ var AddToTransmission = {
       href = this.findParentNode("A", event.target);
     }
 
-    if (href != false && href.toLowerCase().substr(href.length-8, 8) == '.torrent') {
+		var allLinks = this.prefManager.getBoolPref("extensions.addtotransmission.alllinks");
+
+    if (href != false && (href.toLowerCase().indexOf('.torrent') != -1 || href.toLowerCase().indexOf('magnet:?') != -1 || allLinks)) {
+      var magnet = (href.toLowerCase().indexOf('magnet:?') != -1 ? true : false);
       var d = new Date();
       var id = d.getTime();
       
@@ -214,7 +232,7 @@ var AddToTransmission = {
       content.document.body.appendChild(bubble);
       
       menu.hidden = false;
-      this.userInfo = {'href':href,'id':id};
+      this.userInfo = {'href':href,'id':id,'magnet':magnet};
       return;
     }
     menu.hidden = true;

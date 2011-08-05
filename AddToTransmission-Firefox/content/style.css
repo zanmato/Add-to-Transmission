@@ -12,7 +12,7 @@ div.att-bubble {
 	position: absolute;
 	padding: 15px !important;
 	z-index: 100;
-	-moz-transition: opacity 3s linear;
+	-moz-transition: opacity 5s linear;
 }
 
 div.att-bubble:before {

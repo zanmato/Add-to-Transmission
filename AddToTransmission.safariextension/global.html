@@ -17,7 +17,7 @@
 				while(inx < input.length){
 					// Fill byte buffer array
 					bytebuffer = new Array(3);
-					for(jnx = 0; jnx < bytebuffer.length; jnx++)
+					for(var jnx = 0; jnx < bytebuffer.length; jnx++)
 					if(inx < input.length)
 						bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff; // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
 					else
@@ -50,7 +50,7 @@
 					}
 					// Now we will grab each appropriate character out of our keystring
 					// based on our index array and append it to the output string
-					for(jnx = 0; jnx < encodedCharIndexes.length; jnx++)
+					for(var jnx = 0; jnx < encodedCharIndexes.length; jnx++)
 						output += this._keyStr.charAt(encodedCharIndexes[jnx]);
 				}
 				return output;
@@ -62,29 +62,34 @@
 			this.info = info;
 			this.add = function() {
 				that = this;
-				// Try to download the torrent file
-				that.showText("Downloading");
-				try {
-					var request = new XMLHttpRequest();
-					request.open("GET", that.info.href, true);
-					request.overrideMimeType('text/plain; charset=x-user-defined');
-					request.onreadystatechange = function() {
-						if (request.readyState == 4) {
-							// Add paused? defaults to YES!
-							var addPaused = true;
-							if (typeof(safari.extension.settings.addpaused) !== undefined) {
-								addPaused = safari.extension.settings.addpaused;
+				// Add paused? defaults to YES!
+				var addPaused = true;
+				if (safari.extension.settings.getItem("addpaused") != null) {
+					addPaused = safari.extension.settings.addpaused;
+				}
+				
+				if (that.info.magnet) {
+					// Send the magnet link
+					that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused}}));
+				} else {
+					// Try to download the torrent file
+					that.showText("Downloading");
+					try {
+						var request = new XMLHttpRequest();
+						request.open("GET", that.info.href, true);
+						request.overrideMimeType('text/plain; charset=x-user-defined');
+						request.onreadystatechange = function() {
+							if (request.readyState == 4) {
+								// Base64 encode the metadata
+								var metainfo = Base64.encodeBinary(request.responseText); 
+								that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
 							}
-						
-							// Base64 encode the metadata
-							var metainfo = Base64.encodeBinary(request.responseText); 
-							that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
 						}
-					}
 					
-					request.send(null);
-				} catch (e) {
-					that.showText("Failed to fetch the torrent", true);
+						request.send(null);
+					} catch (e) {
+						that.showText("Failed to fetch the torrent", true);
+					}
 				}
 			}
 			this.upload = function(data) {
@@ -93,7 +98,7 @@
 				that.showText("Sending");
 				var request = new XMLHttpRequest();
 
-				if (typeof(safari.extension.settings.username) !== undefined) {
+				if (safari.extension.settings.getItem("username") != null) {
 					request.open("POST", safari.extension.settings.url, true, safari.extension.settings.username, safari.extension.settings.password);
 				} else {
 					request.open("POST", safari.extension.settings.url, true);
@@ -145,12 +150,23 @@
 				event.contextMenu.appendContextMenuItem("addtotransmission", "Add to Transmission");
 			}
 		}
+		
 		function performCommand(event) {
 			if (event.command === "addtotransmission") {
 				var newTorrent = new torrent(userInfo);
 				newTorrent.add();
 			}
 		}
+
+		function getMessage(event) {
+			if (event.name === "getSettings") {
+		    	event.target.page.dispatchMessage("setSettings", {
+		          allLinks: safari.extension.settings.getItem("alllinks")
+		        });
+		    }
+		}
+		
+		safari.application.addEventListener("message", getMessage, false);
 		safari.application.addEventListener("command", performCommand, false);
 		safari.application.addEventListener("contextmenu", handleContextMenu, false);
     </script>

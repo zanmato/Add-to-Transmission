@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE prefwindow SYSTEM "chrome://addtotransmission/locale/overlay.dtd">
-<prefwindow title="Add to Transmission &preferences;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" ondialogcancel="setLoginInfo()">
+<prefwindow id="addtotransmission-prefwindow" title="Add to Transmission &preferences;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onunload="setLoginInfo()">
 	<script type="application/x-javascript" ><![CDATA[
 		var loginManager = Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
 		var lastLogin = false;
@@ -30,7 +30,6 @@
 			var username = document.getElementById("username").value;
 			var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1", Components.interfaces.nsILoginInfo, "init");
 			var loginInfo = new nsLoginInfo('chrome://addtotransmission', url, null, username, password, "", "");
-
 			if (url.length > 0 && password.length > 0) {
 				loginManager.addLogin(loginInfo);
 			}
@@ -39,6 +38,7 @@
 	<prefpane label="Add to Transmission &preferences;" onpaneload="getPasswordValue()">
 		<preferences>
 			<preference id="add-to-transmission-addpaused" name="extensions.addtotransmission.addpaused" type="bool"/>
+			<preference id="add-to-transmission-alllinks" name="extensions.addtotransmission.alllinks" type="bool"/>
 			<preference id="add-to-transmission-url" name="extensions.addtotransmission.url" type="string" />
 			<preference id="add-to-transmission-username" name="extensions.addtotransmission.username" type="string" />
 		</preferences>
@@ -67,6 +67,10 @@
 					<row>
 						<label control="addpaused" value="&addpaused;?"/>
 						<checkbox id="addpaused" preference="add-to-transmission-addpaused" />
+					</row>
+					<row>
+						<label control="alllinks" value="&alllinks;?"/>
+						<checkbox id="alllinks" preference="add-to-transmission-alllinks" />
 					</row>
 				</rows>
 			</grid>

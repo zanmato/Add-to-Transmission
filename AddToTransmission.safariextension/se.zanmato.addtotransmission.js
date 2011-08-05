@@ -1,5 +1,8 @@
+var settings = {};
+
 document.addEventListener("contextmenu", handleContextMenu, false);
 safari.self.addEventListener("message", getMessage, false);
+safari.self.tab.dispatchMessage("getSettings");
 
 function getMessage(theMessageEvent) {
 	if (theMessageEvent.name === "att-progress") {
@@ -18,6 +21,8 @@ function getMessage(theMessageEvent) {
 				setTimeout('document.body.removeChild(document.getElementById(\''+info.id+'\'))', 5000);
 			}
 		}
+	} else if (theMessageEvent.name === "setSettings") {
+		settings = theMessageEvent.message;
 	}
 }
 
@@ -26,6 +31,9 @@ function findParentNode(parentName, childObj) {
 	var count = 1;
 	while (testObj.nodeName != parentName && count < 50) {
 		testObj = testObj.parentNode;
+		if (testObj == null) {
+			return false;
+		}
 		count++;
 	}
     
@@ -44,7 +52,8 @@ function handleContextMenu(event) {
 		href = findParentNode("A", event.target);
 	}
 
-	if (href != false && href.toLowerCase().substr(href.length-8, 8) == '.torrent') {
+	if (href != false && (href.toLowerCase().indexOf('.torrent') != -1 || href.toLowerCase().indexOf('magnet:?') != -1 || settings.allLinks)) {
+		var magnet = (href.toLowerCase().indexOf('magnet:?') != -1 ? true : false);
 		var d = new Date();
 		var id = d.getTime();
 		var bubble = document.createElement("div");
@@ -54,7 +63,7 @@ function handleContextMenu(event) {
 		bubble.style.top = (event.pageY-100)+"px";
 		bubble.style.display = 'none';
 		document.body.appendChild(bubble);
-		safari.self.tab.setContextMenuEventUserInfo(event, {'href':href,'id':id});
+		safari.self.tab.setContextMenuEventUserInfo(event, {'href':href,'magnet':magnet,'id':id});
 		return;
 	}
 	safari.self.tab.setContextMenuEventUserInfo(event, false);  

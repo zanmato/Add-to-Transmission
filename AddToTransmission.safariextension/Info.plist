@@ -4,6 +4,8 @@
 <dict>
 	<key>Author</key>
 	<string>Andreas Johansson</string>
+	<key>Builder Version</key>
+	<string>7534.48.3</string>
 	<key>CFBundleDisplayName</key>
 	<string>Add to Transmission</string>
 	<key>CFBundleIdentifier</key>
@@ -11,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.2</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Global Page</key>

@@ -2,4 +2,5 @@
 <!ENTITY username "Username">
 <!ENTITY password "Password">
 <!ENTITY addpaused "Add paused">
+<!ENTITY alllinks "Enable for all links">
 <!ENTITY preferences "Preferences">

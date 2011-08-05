@@ -2,4 +2,5 @@
 <!ENTITY username "Användarnamn">
 <!ENTITY password "Lösenord">
 <!ENTITY addpaused "Lägg till pausad">
+<!ENTITY alllinks "Aktivera för alla länkar">
 <!ENTITY preferences "Inställningar">
