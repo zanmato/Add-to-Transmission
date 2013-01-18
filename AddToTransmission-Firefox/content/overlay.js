@@ -76,7 +76,7 @@ function AddToTransmissionTorrent(info) {
               if (json_response.result == 'success') {
                 that.showText('successString', true);
               } else {
-                if (troubleshooting) {
+                if (!troubleshooting) {
                   if (json_response.result == 'duplicate torrent') {
                     that.showText('duplicateTorrentString', true);
                   } else if (json_response.result == 'invalid or corrupt torrent file') {
