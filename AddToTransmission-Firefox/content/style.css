@@ -1,3 +1,13 @@
+/** Reset */
+div.att-bubble {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
 div.att-bubble {
 	background: #101010 !important;
 	border: 5px solid #101010 !important;
@@ -6,24 +16,48 @@ div.att-bubble {
 	font-family: "Lucida Grande", "Lucida", "Helvetica" !important;
 	font-size: 16px !important;
 	text-align: center;
-	margin: 1em 0 3em;
 	min-width: 120px;
 	opacity: 0;
 	position: absolute;
-	padding: 15px !important;
+	padding: 5px !important;
 	z-index: 100;
 	-moz-transition: opacity 5s linear;
 }
 
 div.att-bubble:before {
-	bottom: -40px;
-	border: 20px solid transparent;
-	border-top-color: #101010 !important;
+	border: 10px solid transparent;
 	content: "";
 	display: block;
 	height: 0;
-	left: 40px;
 	position: absolute;
 	width: 0;
 	z-index: 100;
+}
+
+div.att-bubble.top:before {
+	bottom: -22px;
+	left: 50%;
+	margin-left: -10px;
+	border-top-color: #101010 !important;
+}
+
+div.att-bubble.bottom:before {
+	top: -22px;
+	left: 50%;
+	margin-left: -10px;
+	border-bottom-color: #101010 !important;
+}
+
+div.att-bubble.left:before {
+	top: 50%;
+	margin-top: -10px;
+	right: -22px;
+	border-left-color: #101010 !important;
+}
+
+div.att-bubble.right:before {
+	top: 50%;
+	margin-top: -10px;
+	left: -22px;
+	border-right-color: #101010 !important;
 }

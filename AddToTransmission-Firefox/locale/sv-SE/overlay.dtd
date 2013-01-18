@@ -4,3 +4,10 @@
 <!ENTITY addpaused "Lägg till pausad">
 <!ENTITY alllinks "Aktivera för alla länkar">
 <!ENTITY preferences "Inställningar">
+<!ENTITY tooltip "Bubbla">
+<!ENTITY placement "Placering">
+<!ENTITY top "Ovanför">
+<!ENTITY bottom "Undertill">
+<!ENTITY left "Vänster">
+<!ENTITY right "Höger">
+<!ENTITY troubleshooting "Felsökning">

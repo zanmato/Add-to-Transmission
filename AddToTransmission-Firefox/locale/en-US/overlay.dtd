@@ -4,3 +4,10 @@
 <!ENTITY addpaused "Add paused">
 <!ENTITY alllinks "Enable for all links">
 <!ENTITY preferences "Preferences">
+<!ENTITY tooltip "Tooltip">
+<!ENTITY placement "Placement">
+<!ENTITY top "Top">
+<!ENTITY bottom "Bottom">
+<!ENTITY left "Left">
+<!ENTITY right "Right">
+<!ENTITY troubleshooting "Troubleshooting">

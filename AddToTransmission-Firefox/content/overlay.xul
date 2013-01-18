@@ -7,6 +7,7 @@
     <menuitem id="addtotransmission-ctx"
               insertafter="context-sendlink"
               class="menuitem-iconic"
+              image="chrome://addtotransmission/content/brand/context-icon.png" 
               label="&addtotrans;"
               oncommand="AddToTransmission.contextMenuItemClicked();"/>
   </popup>

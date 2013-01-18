@@ -1,53 +1,54 @@
 function AddToTransmissionTorrent(info) {
   this.info = info;
   this.prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-	this.loginManager = Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
-	this._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/l";
+  this.loginManager = Components.classes["@mozilla.org/login-manager;1"].getService(Components.interfaces.nsILoginManager);
+  this._keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/l";
   this.add = function() {
     var that = this;
-		// Add paused? defaults to YES!
-  	var addPaused = that.prefManager.getBoolPref("extensions.addtotransmission.addpaused");
+    // Add paused? defaults to YES!
+    var addPaused = that.prefManager.getBoolPref("extensions.addtotransmission.addpaused");
 
     if (that.info.magnet) {
-			// Send the magnet link
-			that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused}}));
-		} else {
-	    // Try to download the torrent file
-	    this.showText('downloadingString');
-	    try {
-	      var request = new XMLHttpRequest();
-	      request.open("GET", that.info.href, true);
-	      request.overrideMimeType('text/plain; charset=x-user-defined');
-	      request.onreadystatechange = function() {
-	        if (request.readyState == 4) {
-	          // Base64 encode the metadata
-	          var metainfo = that.encodeBinary(request.responseText); 
+      // Send the magnet link
+      that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused}}));
+    } else {
+      // Try to download the torrent file
+      this.showText('downloadingString');
+      try {
+        var request = new XMLHttpRequest();
+        request.open("GET", that.info.href, true);
+        request.overrideMimeType('text/plain; charset=x-user-defined');
+        request.onreadystatechange = function() {
+          if (request.readyState == 4) {
+            // Base64 encode the metadata
+            var metainfo = that.encodeBinary(request.responseText); 
           
-	          that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
-	        }
-	      }
+            that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
+          }
+        }
       
-	      request.send(null);
-	    } catch (e) {
-	      that.showText('failedFetchString', true);
-	    }
-		}
+        request.send(null);
+      } catch (e) {
+        that.showText('failedFetchString', true);
+      }
+    }
   }
   this.upload = function(data) {
     var that = this;
     
     that.showText('sendingString');
+    var troubleshooting = this.prefManager.getBoolPref("extensions.addtotransmission.troubleshooting");
     var request = new XMLHttpRequest();
     var username = that.prefManager.getCharPref("extensions.addtotransmission.username");
-		var url = that.prefManager.getCharPref("extensions.addtotransmission.url");
-		var password = false;
-		var logins = that.loginManager.findLogins({}, "chrome://addtotransmission", url, null);
-		for (var i=0; i< logins.length; i++) {
-			if (logins[i].username == username) {
-				password = logins[i].password;
-				break;
-			}
-		}
+    var url = that.prefManager.getCharPref("extensions.addtotransmission.url");
+    var password = false;
+    var logins = that.loginManager.findLogins({}, "chrome://addtotransmission", url, null);
+    for (var i=0; i< logins.length; i++) {
+      if (logins[i].username == username) {
+        password = logins[i].password;
+        break;
+      }
+    }
 
     if (username.length > 0 && password != false) {
       request.open("POST", that.prefManager.getCharPref("extensions.addtotransmission.url"), true, username, password);
@@ -75,14 +76,17 @@ function AddToTransmissionTorrent(info) {
               if (json_response.result == 'success') {
                 that.showText('successString', true);
               } else {
-								if (json_response.result == 'duplicate torrent') {
-									that.showText('duplicateTorrentString', true);
-								} else if (json_response.result == 'invalid or corrupt torrent file') {
-									that.showText('invalidTorrentString', true);
-								} else {
-                	that.showText('unknownErrorString', true);
-								}
-                //that.showText(json_response.result.charAt(0).toUpperCase() + json_response.result.slice(1), true);
+                if (troubleshooting) {
+                  if (json_response.result == 'duplicate torrent') {
+                    that.showText('duplicateTorrentString', true);
+                  } else if (json_response.result == 'invalid or corrupt torrent file') {
+                    that.showText('invalidTorrentString', true);
+                  } else {
+                    that.showText('unknownErrorString', true);
+                  }
+                } else {
+                  that.showText(json_response.result.charAt(0).toUpperCase() + json_response.result.slice(1), true);
+                }
               }
             }
           } else {
@@ -91,7 +95,7 @@ function AddToTransmissionTorrent(info) {
         } catch (e) { 
           that.showText('unknownErrorString', true);
         }
-      }		
+      }    
     };
     
     request.send(data);
@@ -102,22 +106,22 @@ function AddToTransmissionTorrent(info) {
     }
     
     var bubble = content.document.getElementById(this.info.id);
-		if (bubble != null) {
+    if (bubble != null) {
       var bundles = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
       var strings = bundles.createBundle("chrome://addtotransmission/locale/overlay.properties");
-			bubble.innerHTML = strings.GetStringFromName(str);
-			bubble.style.display = 'block';
-			bubble.style.opacity = 0.9;
-			if (close) {
-				// Fade out, set timeout to remove it
-				bubble.style.opacity = 0;
-				var that = this;
-				setTimeout(function(){ if (typeof(content.document.body) !== 'undefined') { try { content.document.body.removeChild(content.document.getElementById(that.info.id)); } catch (e) {/*Do nothing*/} } }, 5000);
-			}
-		}
+      bubble.textContent = strings.GetStringFromName(str);
+      bubble.style.display = 'block';
+      bubble.style.opacity = 0.9;
+      if (close) {
+        // Fade out, set timeout to remove it
+        bubble.style.opacity = 0;
+        var that = this;
+        setTimeout(function(){ if (typeof(content.document.body) !== 'undefined') { try { content.document.body.removeChild(content.document.getElementById(that.info.id)); } catch (e) {/*Do nothing*/} } }, 5000);
+      }
+    }
   }
-	// From http://emilsblog.lerch.org/2009/07/javascript-hacks-using-xhr-to-load.html
-	this.encodeBinary = function(input) {
+  // From http://emilsblog.lerch.org/2009/07/javascript-hacks-using-xhr-to-load.html
+  this.encodeBinary = function(input) {
     var output = "";
     var bytebuffer;
     var encodedCharIndexes = new Array(4);
@@ -170,7 +174,7 @@ function AddToTransmissionTorrent(info) {
 var AddToTransmission = {
   session_id: false,
   userInfo: false,
-	prefManager: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
+  prefManager: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
   onLoad: function(e) {
     var that = this;
     var contextMenu = document.getElementById("contentAreaContextMenu");
@@ -194,14 +198,16 @@ var AddToTransmission = {
     var count = 1;
     while (testObj.nodeName != parentName && count < 50) {
       testObj = testObj.parentNode;
-			if (testObj == null) {
-				return false;
-			}
+      if (testObj == null) {
+        return false;
+      }
       count++;
     }
       
     if (testObj.nodeName == "A") {
       return testObj.href;
+    } else if (testObj.nodeName == "FORM") {
+      return testObj.action;
     } else {
       return false;
     }
@@ -212,23 +218,53 @@ var AddToTransmission = {
     var href = false;
     if (event.target.nodeName == "A") {
       href = event.target.href;
+    } else if (event.target.nodeName == "INPUT" || event.target.nodeName == "BUTTON") {
+      href = this.findParentNode("FORM", event.target);
     } else {
       href = this.findParentNode("A", event.target);
     }
 
-		var allLinks = this.prefManager.getBoolPref("extensions.addtotransmission.alllinks");
+    var allLinks = this.prefManager.getBoolPref("extensions.addtotransmission.alllinks");
 
     if (href != false && (href.toLowerCase().indexOf('.torrent') != -1 || href.toLowerCase().indexOf('magnet:?') != -1 || allLinks)) {
       var magnet = (href.toLowerCase().indexOf('magnet:?') != -1 ? true : false);
       var d = new Date();
       var id = d.getTime();
       
+      var placement = this.prefManager.getCharPref("extensions.addtotransmission.placement");
+      
       var bubble = content.document.createElement("div");
       bubble.id = id;
       bubble.className = "att-bubble";
-      bubble.style.left = (event.pageX-60)+"px";
-      bubble.style.top = (event.pageY-100)+"px";
       bubble.style.display = 'none';
+
+      var pos = {};
+      switch (placement) {
+        case 'b':
+          pos = {top: event.pageY + 30, left: event.pageX - 70};
+          bubble.className += " bottom";
+          break
+        case 't':
+          pos = {top: event.pageY - 70, left: event.pageX - 70};
+          bubble.className += " top";
+          break
+        case 'l':
+          pos = {top: event.pageY - 22, right: (content.document.body.offsetWidth-event.pageX) + 70};
+          bubble.className += " left";
+          break
+        case 'r':
+          pos = {top: event.pageY - 22, left: event.pageX + 70};
+          bubble.className += " right";
+          break
+      }
+
+      if (pos.left) {
+        bubble.style.left = pos.left+"px";
+      } else {
+        bubble.style.right = pos.right+"px";
+      }
+      bubble.style.top = pos.top+"px";
+      
       content.document.body.appendChild(bubble);
       
       menu.hidden = false;

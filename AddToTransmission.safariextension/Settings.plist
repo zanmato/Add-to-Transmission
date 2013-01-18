@@ -56,5 +56,29 @@
 		<key>Type</key>
 		<string>CheckBox</string>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>t</string>
+		<key>Key</key>
+		<string>placement</string>
+		<key>Title</key>
+		<string>Tooltip placement</string>
+		<key>Titles</key>
+		<array>
+			<string>Top</string>
+			<string>Bottom</string>
+			<string>Left</string>
+			<string>Right</string>
+		</array>
+		<key>Type</key>
+		<string>ListBox</string>
+		<key>Values</key>
+		<array>
+			<string>t</string>
+			<string>b</string>
+			<string>l</string>
+			<string>Right</string>
+		</array>
+	</dict>
 </array>
 </plist>

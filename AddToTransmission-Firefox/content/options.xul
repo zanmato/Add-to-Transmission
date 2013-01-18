@@ -41,6 +41,8 @@
 			<preference id="add-to-transmission-alllinks" name="extensions.addtotransmission.alllinks" type="bool"/>
 			<preference id="add-to-transmission-url" name="extensions.addtotransmission.url" type="string" />
 			<preference id="add-to-transmission-username" name="extensions.addtotransmission.username" type="string" />
+			<preference id="add-to-transmission-placement" name="extensions.addtotransmission.placement" type="string" />
+			<preference id="add-to-transmission-troubleshooting" name="extensions.addtotransmission.troubleshooting" type="bool"/>
 		</preferences>
 
 		<groupbox>
@@ -54,7 +56,7 @@
 				<rows>
 					<row>
 						<label control="url" value="URL"/>
-						<textbox id="url" preference="add-to-transmission-url" />
+						<textbox id="url" preference="add-to-transmission-url" placeholder="http://127.0.0.1:9091/transmission/rpc" />
 					</row>
 					<row>
 						<label control="username" value="&username;"/>
@@ -71,6 +73,33 @@
 					<row>
 						<label control="alllinks" value="&alllinks;?"/>
 						<checkbox id="alllinks" preference="add-to-transmission-alllinks" />
+					</row>
+					<row>
+						<label control="troubleshooting" value="&troubleshooting;?"/>
+						<checkbox id="troubleshooting" preference="add-to-transmission-troubleshooting" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>	
+		<groupbox>
+			<caption label="&tooltip;"/>
+			<grid>
+				<columns>
+					<column flex="4"/>
+
+					<column flex="2"/>
+				</columns>
+				<rows>
+					<row>
+						<label control="placement" value="&placement;?"/>
+						<menulist id="placement" preference="add-to-transmission-placement">
+							<menupopup>
+								<menuitem label="&top;" value="t" />
+								<menuitem label="&bottom;" value="b"/>
+								<menuitem label="&left;" value="l"/>
+								<menuitem label="&right;" value="r"/>
+							</menupopup>
+						</menulist>
 					</row>
 				</rows>
 			</grid>
