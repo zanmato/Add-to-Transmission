@@ -161,8 +161,9 @@
 		function getMessage(event) {
 			if (event.name === "getSettings") {
 		    	event.target.page.dispatchMessage("setSettings", {
-		          allLinks: safari.extension.settings.getItem("alllinks")
-		        });
+		          allLinks: safari.extension.settings.getItem("alllinks"),
+		          placement: safari.extension.settings.getItem("placement")
+		      });
 		    }
 		}
 		
