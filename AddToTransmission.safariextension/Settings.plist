@@ -14,6 +14,16 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
+		<string></string>
+		<key>Key</key>
+		<string>path</string>
+		<key>Title</key>
+		<string>Download Path</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
 		<string>admin</string>
 		<key>Key</key>
 		<string>username</string>

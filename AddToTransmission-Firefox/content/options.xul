@@ -40,6 +40,7 @@
 			<preference id="add-to-transmission-addpaused" name="extensions.addtotransmission.addpaused" type="bool"/>
 			<preference id="add-to-transmission-alllinks" name="extensions.addtotransmission.alllinks" type="bool"/>
 			<preference id="add-to-transmission-url" name="extensions.addtotransmission.url" type="string" />
+			<preference id="add-to-transmission-path" name="extensions.addtotransmission.path" type="string" />
 			<preference id="add-to-transmission-username" name="extensions.addtotransmission.username" type="string" />
 			<preference id="add-to-transmission-placement" name="extensions.addtotransmission.placement" type="string" />
 			<preference id="add-to-transmission-troubleshooting" name="extensions.addtotransmission.troubleshooting" type="bool"/>
@@ -57,6 +58,10 @@
 					<row>
 						<label control="url" value="URL"/>
 						<textbox id="url" preference="add-to-transmission-url" placeholder="http://127.0.0.1:9091/transmission/rpc" />
+					</row>
+					<row>
+						<label control="path" value="Download Path"/>
+						<textbox id="path" preference="add-to-transmission-path" />
 					</row>
 					<row>
 						<label control="username" value="&username;"/>
