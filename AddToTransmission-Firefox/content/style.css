@@ -21,10 +21,10 @@ div.att-bubble {
 	position: absolute;
 	padding: 5px !important;
 	z-index: 100;
-	-moz-transition: opacity 5s linear;
+    transition: opacity 4s linear;
 }
 
-div.att-bubble:before {
+div.att-bubble.arrow:before {
 	border: 10px solid transparent;
 	content: "";
 	display: block;
@@ -34,28 +34,28 @@ div.att-bubble:before {
 	z-index: 100;
 }
 
-div.att-bubble.top:before {
+div.att-bubble.arrow.top:before {
 	bottom: -22px;
 	left: 50%;
 	margin-left: -10px;
 	border-top-color: #101010 !important;
 }
 
-div.att-bubble.bottom:before {
+div.att-bubble.arrow.bottom:before {
 	top: -22px;
 	left: 50%;
 	margin-left: -10px;
 	border-bottom-color: #101010 !important;
 }
 
-div.att-bubble.left:before {
+div.att-bubble.arrow.left:before {
 	top: 50%;
 	margin-top: -10px;
 	right: -22px;
 	border-left-color: #101010 !important;
 }
 
-div.att-bubble.right:before {
+div.att-bubble.arrow.right:before {
 	top: 50%;
 	margin-top: -10px;
 	left: -22px;

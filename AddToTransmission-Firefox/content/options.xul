@@ -43,6 +43,7 @@
 			<preference id="add-to-transmission-username" name="extensions.addtotransmission.username" type="string" />
 			<preference id="add-to-transmission-placement" name="extensions.addtotransmission.placement" type="string" />
 			<preference id="add-to-transmission-troubleshooting" name="extensions.addtotransmission.troubleshooting" type="bool"/>
+            <preference id="add-to-transmission-downloads" name="extensions.addtotransmission.downloads" type="bool"/>
 		</preferences>
 
 		<groupbox>
@@ -74,10 +75,6 @@
 						<label control="alllinks" value="&alllinks;?"/>
 						<checkbox id="alllinks" preference="add-to-transmission-alllinks" />
 					</row>
-					<row>
-						<label control="troubleshooting" value="&troubleshooting;?"/>
-						<checkbox id="troubleshooting" preference="add-to-transmission-troubleshooting" />
-					</row>
 				</rows>
 			</grid>
 		</groupbox>	
@@ -91,7 +88,7 @@
 				</columns>
 				<rows>
 					<row>
-						<label control="placement" value="&placement;?"/>
+						<label control="placement" value="&placement;"/>
 						<menulist id="placement" preference="add-to-transmission-placement">
 							<menupopup>
 								<menuitem label="&top;" value="t" />
@@ -103,6 +100,27 @@
 					</row>
 				</rows>
 			</grid>
-		</groupbox>	
-	</prefpane>
+		</groupbox>
+        <groupbox>
+            <caption label="&advanced;"/>
+            <grid>
+                <columns>
+                    <column flex="4"/>
+
+                    <column flex="2"/>
+                </columns>
+                <rows>
+                    <row>
+                        <label control="downloads" value="&downloads;"/>
+                        <checkbox id="downloads" preference="add-to-transmission-downloads" />
+                        <label style="font-size: smaller;" value="&restart;" />
+                    </row>
+                    <row>
+                        <label control="troubleshooting" value="&troubleshooting;"/>
+                        <checkbox id="troubleshooting" preference="add-to-transmission-troubleshooting" />
+                    </row>
+                </rows>
+            </grid>
+        </groupbox>
+    </prefpane>
 </prefwindow>

@@ -11,3 +11,6 @@
 <!ENTITY left "Vänster">
 <!ENTITY right "Höger">
 <!ENTITY troubleshooting "Felsökning">
+<!ENTITY advanced "Avancerat">
+<!ENTITY downloads "Hantera nedladdningar">
+<!ENTITY restart "Kräver omstart">

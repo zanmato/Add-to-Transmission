@@ -2,7 +2,11 @@ Easily add torrents to Transmission.
 
 Just secondary click on any torrent link and select Add to Transmission from the contextual menu to have the torrent downloaded and sent to the daemon of your choice!
 
-What's new in 1.3?
+What's new in 1.4?
+------------------
+* (Firefox) Handle downloads option. This enables you to directly pass through torrents and magnet links, without using the context menu.
+
+1.3
 ------------------
 * Added support for forms without any inputs.
 * Made the tooltip placement configurable.

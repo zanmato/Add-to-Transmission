@@ -11,3 +11,6 @@
 <!ENTITY left "Left">
 <!ENTITY right "Right">
 <!ENTITY troubleshooting "Troubleshooting">
+<!ENTITY advanced "Advanced">
+<!ENTITY downloads "Handle downloads">
+<!ENTITY restart "Requires restart">
