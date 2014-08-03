@@ -14,3 +14,5 @@
 <!ENTITY advanced "Advanced">
 <!ENTITY downloads "Handle downloads">
 <!ENTITY restart "Requires restart">
+<!ENTITY path "Download path">
+<!ENTITY pathPlaceholder "Default">

@@ -19,10 +19,11 @@ function TorrentClient(info, delegate) {
         var that = this;
         // Add paused? defaults to YES!
         var addPaused = that.prefManager.getBoolPref("extensions.addtotransmission.addpaused");
+        var downloadDir = that.prefManager.getCharPref("extensions.addtotransmission.path");
 
         if (that.info.magnet) {
             // Send the magnet link
-            that.upload(JSON.stringify({method: "torrent-add", arguments: {filename: that.info.href, paused: addPaused}}));
+            that.upload(JSON.stringify({method: "torrent-add", arguments: {filename: that.info.href, paused: addPaused, "download-dir": downloadDir}}));
         } else {
             // Try to download the torrent file
             that.showText('downloadingString');
@@ -35,7 +36,7 @@ function TorrentClient(info, delegate) {
                         // Base64 encode the metadata
                         var metainfo = that.encodeBinary(request.responseText);
 
-                        that.upload(JSON.stringify({method: "torrent-add", arguments: {metainfo: metainfo, paused: addPaused}}));
+                        that.upload(JSON.stringify({method: "torrent-add", arguments: {metainfo: metainfo, paused: addPaused, "download-dir": downloadDir}}));
                     }
                 }
 

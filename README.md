@@ -5,6 +5,7 @@ Just secondary click on any torrent link and select Add to Transmission from the
 What's new in 1.4?
 ------------------
 * (Firefox) Handle downloads option. This enables you to directly pass through torrents and magnet links, without using the context menu.
+* Download path option, thanks to [amet](https://github.com/zanmato/Add-to-Transmission/pull/6)
 
 1.3
 ------------------

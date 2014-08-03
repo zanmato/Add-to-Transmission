@@ -67,10 +67,13 @@
 				if (safari.extension.settings.getItem("addpaused") != null) {
 					addPaused = safari.extension.settings.addpaused;
 				}
-				
+				var downloadDir = "";
+				if (safari.extension.settings.getItem("path") != null) {
+					downloadDir = safari.extension.settings.path;
+				}
 				if (that.info.magnet) {
 					// Send the magnet link
-					that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused}}));
+					that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused, "download-dir":downloadDir}}));
 				} else {
 					// Try to download the torrent file
 					that.showText("Downloading");
@@ -82,7 +85,7 @@
 							if (request.readyState == 4) {
 								// Base64 encode the metadata
 								var metainfo = Base64.encodeBinary(request.responseText); 
-								that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused}}));
+								that.upload(JSON.stringify({method:"torrent-add", arguments:{metainfo:metainfo, paused:addPaused, "download-dir":downloadDir}}));
 							}
 						}
 					

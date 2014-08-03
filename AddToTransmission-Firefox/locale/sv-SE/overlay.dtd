@@ -14,3 +14,5 @@
 <!ENTITY advanced "Avancerat">
 <!ENTITY downloads "Hantera nedladdningar">
 <!ENTITY restart "Kräver omstart">
+<!ENTITY path "Hämtningssökväg">
+<!ENTITY pathPlaceholder "Standard">

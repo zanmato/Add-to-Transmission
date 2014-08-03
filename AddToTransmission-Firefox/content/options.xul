@@ -40,6 +40,7 @@
 			<preference id="add-to-transmission-addpaused" name="extensions.addtotransmission.addpaused" type="bool"/>
 			<preference id="add-to-transmission-alllinks" name="extensions.addtotransmission.alllinks" type="bool"/>
 			<preference id="add-to-transmission-url" name="extensions.addtotransmission.url" type="string" />
+			<preference id="add-to-transmission-path" name="extensions.addtotransmission.path" type="string" />
 			<preference id="add-to-transmission-username" name="extensions.addtotransmission.username" type="string" />
 			<preference id="add-to-transmission-placement" name="extensions.addtotransmission.placement" type="string" />
 			<preference id="add-to-transmission-troubleshooting" name="extensions.addtotransmission.troubleshooting" type="bool"/>
@@ -60,6 +61,10 @@
 						<textbox id="url" preference="add-to-transmission-url" placeholder="http://127.0.0.1:9091/transmission/rpc" />
 					</row>
 					<row>
+						<label control="path" value="&path;"/>
+						<textbox id="path" placeholder="&pathPlaceholder;" preference="add-to-transmission-path" />
+					</row>
+					<row>
 						<label control="username" value="&username;"/>
 						<textbox id="username" preference="add-to-transmission-username" />
 					</row>
@@ -68,11 +73,11 @@
 						<textbox id="password" type="password" />
 					</row>
 					<row>
-						<label control="addpaused" value="&addpaused;?"/>
+						<label control="addpaused" value="&addpaused;"/>
 						<checkbox id="addpaused" preference="add-to-transmission-addpaused" />
 					</row>
 					<row>
-						<label control="alllinks" value="&alllinks;?"/>
+						<label control="alllinks" value="&alllinks;"/>
 						<checkbox id="alllinks" preference="add-to-transmission-alllinks" />
 					</row>
 				</rows>
